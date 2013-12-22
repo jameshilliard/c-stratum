@@ -208,13 +208,13 @@ void main() {
   job job;
   int job_id = 1;
   char prevhash[]="0000000000000000000000000000000000000000000000000000000000000000";
-  char *merkles[] = {"4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b","5a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"};
+  char *merkles[] = {"4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b","5a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b","6a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b","7a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b","8a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b","9a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"};
   char coinb1[] = "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff20020862062f503253482f04b8864e5008";
   char coinb2[] = "072f736c7573682f000000000100f2052a010000001976a914d23fcdf86f7e756a64a7a9688ef9903327048ed988ac00000000";
   int version = 2;
   int bits = 486604799;
   int ntime = (unsigned)(time(NULL));
-  init_job(&job,job_id,prevhash,coinb1,coinb2,2,merkles,2,bits,ntime);
+  init_job(&job,job_id,prevhash,coinb1,coinb2,6,merkles,2,bits,ntime);
   dump_job(job);
   getwork(&job);
   getwork(&job);
