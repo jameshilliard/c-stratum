@@ -35,10 +35,8 @@ void hexdump(unsigned char* data, int len)
     {
       printf("%.2x", data[c++]);
     }
-  printf("\n");
 }
 
-/* very very slow */
 void byte_swap(unsigned char* data, int len) {
   int c;
   unsigned char tmp[len];
@@ -120,11 +118,16 @@ void dump_job(job job) {
   printf("Merkle Branches:\n");
   for(i=0;i<job.merkle_count;i++){
     hexdump(job.merkle_branch[i],32);
+    printf("\n");
   }
   printf("Coinbase 1:");
   hexdump(job.coinb1,58);
+  printf("\n");
+  
   printf("Coinbase 2:");
   hexdump(job.coinb2,51);
+  printf("\n");
+  
   printf("Dumping Job End\n");
   printf("===============\n");
 }
@@ -159,14 +162,17 @@ void getwork(job* job) {
   memcpy(coinbase+62,job->coinb2,51);
   printf("Extranonce: ");
   hexdump(nonce_bytes,4);
+  printf("\n");
   printf("Coinbase: ");
   hexdump(coinbase,113);
+  printf("\n");
 
   /* build merkle_root */
   char* init_hash = (char *)malloc(SHA256_BLOCK_SIZE);
   dhash(coinbase,113,init_hash);
   printf("Coinbase_Hash: ");
   hexdump(init_hash,SHA256_BLOCK_SIZE);
+  printf("\n");
   
   char* merkle_root=(char *)malloc(SHA256_BLOCK_SIZE);
   char* input = (char *)malloc(SHA256_BLOCK_SIZE*2);
@@ -180,6 +186,7 @@ void getwork(job* job) {
 
   printf("Merkle_Root: ");
   hexdump(merkle_root,SHA256_BLOCK_SIZE);
+  printf("\n");
 
   /* build blockheader */
   block_header header;
@@ -191,6 +198,7 @@ void getwork(job* job) {
   header.nonce = 0;
   printf("Block_Header: ");
   hexdump((unsigned char*)&header,80);
+  printf("\n");
 
   /* build midstate */
   char* midstate_input = (char *)malloc(64);
@@ -199,8 +207,15 @@ void getwork(job* job) {
   state = midstate(midstate_input);
   printf("Midstate: ");
   hexdump(state.byte,SHA256_BLOCK_SIZE);
+  printf("\n");
 
   printf("GetWork End\n");
+  printf("JSON output:\n");
+  printf("{\"midstate\" : \"");
+  hexdump(state.byte,SHA256_BLOCK_SIZE);
+  printf("\",\r\n\"data\" : \"");
+  hexdump((unsigned char*)&header,80);
+  printf("\",\r\n\"hash1\" : \"00000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000010000\",\r\n\"target\" : \"0000000000000000000000000000000000000000000000a6b654000000000000\"\r\n}\r\n");
   printf("============\n");
 }
   
